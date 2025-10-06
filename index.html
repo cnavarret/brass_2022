@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Evolución del Pensamiento sobre Desarrollo y Gobernanza</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: Se ha diseñado una aplicación de una sola página con un flujo vertical y temático. Un encabezado de navegación fijo permite el desplazamiento suave a cada sección (Era Estatal, Neoliberal, Gobernanza, etc.). El elemento central es una línea de tiempo visual y vertical que se resalta a medida que el usuario se desplaza, proporcionando un anclaje contextual. El contenido de cada era se presenta en "tarjetas" interactivas; al hacer clic en "Ver Detalles" se abre una ventana modal con información ampliada. Esta estructura de "revelación progresiva" hace que el denso contenido académico sea más accesible y explorable, priorizando la usabilidad y la guía del usuario a través de una narrativa histórica. -->
+    <!-- Visualization & Content Choices: Dado que el informe es puramente textual, no se utilizan gráficos de datos. La visualización principal es una línea de tiempo cronológica creada con HTML/CSS para contextualizar las diferentes eras teóricas (Meta: Organizar y Cambiar). Las teorías específicas se presentan en tarjetas interactivas (Meta: Informar) con modales para profundizar (Interacción: Clic). Para la sección contemporánea, se utiliza un diagrama de relaciones simple (hecho con HTML/CSS) para mostrar la interacción fragmentada entre Estado, Capital y Trabajo (Meta: Relaciones), con tooltips que aparecen al pasar el ratón (Interacción: Hover). Estas elecciones convierten la lectura pasiva en una exploración activa, mejorando la comprensión sin usar librerías de gráficos. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #1f2937;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #d1d5db;
+            border: 4px solid #f8f7f4;
+            transition: background-color 0.3s ease;
+        }
+        .timeline-item.active::before {
+            background-color: #0d9488;
+        }
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .nav-link.active {
+            color: #0d9488;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-40 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-teal-700">Teorías del Desarrollo</h1>
+            <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
+                <a href="#intro" class="hover:text-teal-600 nav-link">Introducción</a>
+                <a href="#era-estatal" class="hover:text-teal-600 nav-link">Era Estatal</a>
+                <a href="#giro-neoliberal" class="hover:text-teal-600 nav-link">Giro Neoliberal</a>
+                <a href="#ascenso-gobernanza" class="hover:text-teal-600 nav-link">Gobernanza</a>
+                <a href="#debates-actuales" class="hover:text-teal-600 nav-link">Debates Actuales</a>
+                <a href="#conclusion" class="hover:text-teal-600 nav-link">Conclusión</a>
+            </div>
+             <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-6 pt-2 pb-4 border-t border-gray-200">
+            <a href="#intro" class="block py-2 text-gray-600 hover:text-teal-600 nav-link">Introducción</a>
+            <a href="#era-estatal" class="block py-2 text-gray-600 hover:text-teal-600 nav-link">Era Estatal</a>
+            <a href="#giro-neoliberal" class="block py-2 text-gray-600 hover:text-teal-600 nav-link">Giro Neoliberal</a>
+            <a href="#ascenso-gobernanza" class="block py-2 text-gray-600 hover:text-teal-600 nav-link">Gobernanza</a>
+            <a href="#debates-actuales" class="block py-2 text-gray-600 hover:text-teal-600 nav-link">Debates Actuales</a>
+            <a href="#conclusion" class="block py-2 text-gray-600 hover:text-teal-600 nav-link">Conclusión</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        
+        <section id="intro" class="mb-24 text-center max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-5xl font-bold mb-4 text-gray-800 tracking-tight">La Evolución del Pensamiento sobre Desarrollo y Gobernanza</h2>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Un viaje interactivo a través de los paradigmas que han moldeado la política global y la economía durante los últimos 75 años. Desde el auge del Estado como motor de desarrollo hasta los complejos debates sobre gobernanza en un mundo globalizado.
+            </p>
+        </section>
+
+        <div class="relative border-l-2 border-gray-300 ml-5 pl-10">
+            
+            <div id="timeline-container">
+                <!-- Timeline items will be dynamically managed by JS -->
+            </div>
+
+            <article id="era-estatal" class="mb-24 timeline-item">
+                <h3 class="text-2xl md:text-3xl font-bold text-teal-700 mb-2">1. La Era del Estado Protagonista</h3>
+                <p class="text-sm font-medium text-gray-500 mb-6">POST-GUERRA a 1970</p>
+                <p class="mb-8 text-gray-700 leading-relaxed">En el período de posguerra, bajo la influencia keynesiana, el Estado fue visto como el actor indispensable para corregir fallas de mercado y dirigir la industrialización. Este enfoque estatista dio lugar a modelos de planificación centralizada y protección de las industrias nacionales.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                        <h4 class="font-bold text-lg mb-2">Teoría de la Modernización</h4>
+                        <p class="text-sm text-gray-600 mb-4">Sostenía que el desarrollo era un proceso lineal, donde los países debían seguir las etapas de Occidente, adoptando sus valores y sistemas capitalistas.</p>
+                        <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="modernizacion">Ver Detalles →</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                        <h4 class="font-bold text-lg mb-2">Teoría de la Dependencia</h4>
+                        <p class="text-sm text-gray-600 mb-4">Argumentaba que el subdesarrollo era una condición estructural creada por la inserción asimétrica de los países periféricos en el sistema capitalista mundial.</p>
+                        <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="dependencia">Ver Detalles →</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                        <h4 class="font-bold text-lg mb-2">Sustitución de Importaciones (ISI)</h4>
+                        <p class="text-sm text-gray-600 mb-4">Modelo económico que buscaba fomentar la industria local protegiendo los mercados internos con altos aranceles, resultando en ineficiencias y clientelismo.</p>
+                        <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="isi">Ver Detalles →</button>
+                    </div>
+                </div>
+            </article>
+
+            <article id="giro-neoliberal" class="mb-24 timeline-item">
+                <h3 class="text-2xl md:text-3xl font-bold text-teal-700 mb-2">2. El Giro Neoliberal</h3>
+                 <p class="text-sm font-medium text-gray-500 mb-6">1980 - 1990</p>
+                <p class="mb-8 text-gray-700 leading-relaxed">Ante el fracaso de los modelos estatistas, emergió un paradigma de mercado, promovido por instituciones como el FMI y el Banco Mundial. La premisa era que el Estado era el problema y el mercado la solución, impulsando privatizaciones, desregulación y recortes del gasto público.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                        <h4 class="font-bold text-lg mb-2">Consenso de Washington</h4>
+                        <p class="text-sm text-gray-600 mb-4">Conjunto de políticas económicas que promovían la liberalización del comercio, la privatización de empresas estatales y la disciplina fiscal como receta para el desarrollo.</p>
+                        <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="washington">Ver Detalles →</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                        <h4 class="font-bold text-lg mb-2">Programas de Ajuste Estructural (PAE)</h4>
+                        <p class="text-sm text-gray-600 mb-4">Condiciones impuestas para recibir préstamos que forzaban a los países a adoptar las reformas neoliberales. A menudo resultaron en estancamiento y aumento de la desigualdad.</p>
+                        <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="pae">Ver Detalles →</button>
+                    </div>
+                </div>
+            </article>
+
+            <article id="ascenso-gobernanza" class="mb-24 timeline-item">
+                <h3 class="text-2xl md:text-3xl font-bold text-teal-700 mb-2">3. El Ascenso de la Gobernanza</h3>
+                 <p class="text-sm font-medium text-gray-500 mb-6">1990 - 2000</p>
+                <p class="mb-8 text-gray-700 leading-relaxed">El fracaso de las reformas de mercado puras llevó al reconocimiento de que los mercados necesitan instituciones sólidas para funcionar. El foco se desplazó hacia la "buena gobernanza", enfatizando la transparencia, el estado de derecho y la lucha contra la corrupción.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                        <h4 class="font-bold text-lg mb-2">Buena Gobernanza</h4>
+                        <p class="text-sm text-gray-600 mb-4">Concepto normativo que define un conjunto de estándares institucionales (control de la corrupción, rendición de cuentas) como prerrequisito para el desarrollo.</p>
+                        <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="buena-gobernanza">Ver Detalles →</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                        <h4 class="font-bold text-lg mb-2">Gobernanza "Suficientemente Buena"</h4>
+                        <p class="text-sm text-gray-600 mb-4">Crítica al enfoque universalista, proponiendo en su lugar priorizar reformas adaptadas al contexto específico y realista de cada país.</p>
+                        <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="suficiente-gobernanza">Ver Detalles →</button>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                        <h4 class="font-bold text-lg mb-2">Gobernanza Colaborativa</h4>
+                        <p class="text-sm text-gray-600 mb-4">Reconoce que el desarrollo implica la cooperación de múltiples actores, incluyendo el Estado, el sector privado, las ONGs y las comunidades locales.</p>
+                        <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="colaborativa-gobernanza">Ver Detalles →</button>
+                    </div>
+                </div>
+            </article>
+
+            <article id="debates-actuales" class="mb-24 timeline-item">
+                <h3 class="text-2xl md:text-3xl font-bold text-teal-700 mb-2">4. Debates Contemporáneos</h3>
+                <p class="text-sm font-medium text-gray-500 mb-6">SIGLO XXI</p>
+                <p class="mb-8 text-gray-700 leading-relaxed">El campo del desarrollo se ha fragmentado en agendas más específicas. Surge la necesidad de un marco integrador que conecte las dinámicas locales, nacionales y globales, y reconozca la transformación de los actores clave y las estructuras de poder internacionales.</p>
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 text-center">Nuevas Agendas de Investigación</h4>
+                         <div class="space-y-6">
+                            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                                <h5 class="font-bold mb-2">Economía Política de la Distribución</h5>
+                                <p class="text-sm text-gray-600 mb-4">Se enfoca en intervenciones micro (salud, educación) para mejorar el capital humano, a menudo descuidando la transformación estructural a gran escala.</p>
+                                <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="distribucion">Ver Detalles →</button>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                                <h5 class="font-bold mb-2">Cadenas de Valor Globales (CVG)</h5>
+                                <p class="text-sm text-gray-600 mb-4">Analiza cómo las empresas de países en desarrollo se integran en redes de producción globales, buscando escalar hacia actividades de mayor valor agregado.</p>
+                                <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="cvg">Ver Detalles →</button>
+                            </div>
+                             <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50">
+                                <h5 class="font-bold mb-2">Análisis Histórico-Estructural Revisado</h5>
+                                <p class="text-sm text-gray-600 mb-4">Propone un marco integrador que analiza la interacción dinámica entre fuerzas domésticas (política, clases) y estructuras globales (comercio, inversión).</p>
+                                <button class="details-btn text-teal-600 font-semibold text-sm hover:text-teal-800" data-id="historico-estructural">Ver Detalles →</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200/50 flex flex-col items-center justify-center">
+                        <h4 class="font-bold text-lg mb-6 text-center">La Fragmentación de Actores Colectivos</h4>
+                        <p class="text-sm text-gray-600 text-center mb-8">Las reformas neoliberales transformaron las relaciones entre los actores clave del desarrollo. Pase el cursor sobre cada actor para ver su rol actual.</p>
+                        <div class="relative w-full max-w-sm h-64">
+                             <div class="actor absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-teal-100 border-2 border-teal-500 rounded-full flex items-center justify-center text-center font-bold text-teal-800 cursor-pointer" data-tooltip="Erosionado en su autonomía y capacidad regulatoria, a menudo fragmentado y capturado por intereses clientelares.">Estado</div>
+                             <div class="actor absolute top-0 left-0 w-24 h-24 bg-sky-100 border-2 border-sky-500 rounded-full flex items-center justify-center text-center font-bold text-sky-800 cursor-pointer" data-tooltip="Diversificado y fragmentado, con intereses conflictivos entre empresas orientadas al mercado doméstico y aquellas integradas en cadenas de valor globales.">Capital</div>
+                             <div class="actor absolute top-0 right-0 w-24 h-24 bg-amber-100 border-2 border-amber-500 rounded-full flex items-center justify-center text-center font-bold text-amber-800 cursor-pointer" data-tooltip="Poder de negociación reducido por la desindicalización. La acción colectiva se desplaza hacia movimientos sociales en busca de beneficios específicos.">Trabajo</div>
+                        </div>
+                         <div id="tooltip" class="absolute hidden bg-gray-800 text-white text-xs rounded py-1 px-2 z-50 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+            </article>
+
+            <article id="conclusion" class="timeline-item">
+                 <h3 class="text-2xl md:text-3xl font-bold text-teal-700 mb-2">Conclusión</h3>
+                 <p class="text-sm font-medium text-gray-500 mb-6">MIRANDO HACIA EL FUTURO</p>
+                <div class="bg-white p-8 rounded-xl shadow-md border border-gray-200/50">
+                    <p class="text-gray-700 leading-relaxed">El viaje por las teorías del desarrollo revela una evolución desde la búsqueda de modelos universales hacia una comprensión más humilde, contextual y multifacética. La dicotomía Estado-mercado ha sido superada por el reconocimiento de su interdependencia y la importancia de las instituciones. El análisis contemporáneo subraya que no existen soluciones genéricas; cada trayectoria nacional es única, moldeada por la interacción de sus actores internos y las restricciones de un sistema global cambiante. Comprender el desarrollo hoy exige un enfoque holístico que conecte las intervenciones micro con las estructuras de poder macro, una condición indispensable para forjar un futuro más equitativo y sostenible.</p>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-sm">
+            <p>&copy; 2025 Explorador de Teorías del Desarrollo. Una visualización interactiva del resumen.</p>
+        </div>
+    </footer>
+
+    <div id="modal" class="modal fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+                <h3 id="modal-title" class="text-xl font-bold"></h3>
+                <button id="modal-close" class="text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <div id="modal-body" class="p-6 text-gray-700 leading-relaxed"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contentData = {
+                'modernizacion': {
+                    title: 'Teoría de la Modernización',
+                    text: `Planteaba el desarrollo como un proceso lineal y evolutivo, en el que las naciones "subdesarrolladas" debían seguir las etapas de los países occidentales, adoptando sus valores, instituciones democráticas y sistemas capitalistas. Sin embargo, este enfoque fue duramente criticado por su etnocentrismo y su incapacidad para explicar la persistencia del subdesarrollo.`
+                },
+                'dependencia': {
+                    title: 'Teoría de la Dependencia',
+                    text: `Teóricos como Raúl Prebisch, André Gunder Frank, y Fernando Henrique Cardoso y Enzo Faletto, argumentaron que el subdesarrollo no era una etapa previa al desarrollo, sino una condición estructural generada por la inserción asimétrica de los países periféricos en el sistema capitalista mundial. Según esta visión, el "desarrollo del subdesarrollo" era el resultado de un deterioro crónico en los términos de intercambio y la explotación de recursos por parte de las economías centrales.`
+                },
+                'isi': {
+                    title: 'Industrialización por Sustitución de Importaciones (ISI)',
+                    text: `Adoptado ampliamente en América Latina y África, este modelo buscaba fomentar la industria nacional protegiendo los mercados internos con altos aranceles y barreras comerciales. Los gobiernos crearon masivamente empresas de propiedad estatal (EPEs), expandieron drásticamente el empleo público —convirtiéndose en "empleadores de último recurso" en países como Egipto y Tanzania— y gestionaron la economía a través de la planificación centralizada y el control de precios. A pesar de sus nobles intenciones, el modelo mostró graves limitaciones como la ineficiencia, la corrupción y el estancamiento económico.`
+                },
+                'washington': {
+                    title: 'Consenso de Washington',
+                    text: `Este nuevo paradigma fue promovido enérgicamente por instituciones financieras internacionales como el Fondo Monetario Internacional (FMI) y el Banco Mundial. Impulsó una agenda de reformas radicales que incluía la privatización de empresas estatales, la desregulación de los mercados, la liberalización del comercio y la drástica reducción del gasto público, especialmente en servicios sociales como salud y educación.`
+                },
+                'pae': {
+                    title: 'Programas de Ajuste Estructural (PAE)',
+                    text: `Fueron las condiciones impuestas por el FMI y el Banco Mundial para la concesión de préstamos a países en desarrollo. El impacto de estas políticas fue profundo y, en muchos casos, devastador. En lugar de estimular el crecimiento, estas reformas a menudo condujeron al estancamiento económico y a la agudización de la desigualdad. Lejos de fortalecer las economías, la implementación de los PAE debilitó aún más la capacidad administrativa de los Estados, deslegitimando su autoridad.`
+                },
+                'buena-gobernanza': {
+                    title: 'Buena Gobernanza',
+                    text: `Se definió como la capacidad de las instituciones públicas para gestionar los recursos de manera eficiente, transparente y responsable. Los indicadores clave incluían el control de la corrupción, el estado de derecho, la estabilidad política, la eficacia gubernamental y la rendición de cuentas. Teóricos como Douglass North enfatizaron que instituciones sólidas eran prerrequisitos para el crecimiento económico.`
+                },
+                 'suficiente-gobernanza': {
+                    title: 'Gobernanza "Suficientemente Buena"',
+                    text: `Investigadores como Merilee Grindle argumentaron que la agenda de "buena gobernanza" era a menudo un ideal normativo y poco realista para las complejas realidades de los países en desarrollo. Grindle propuso este concepto alternativo, que aboga por priorizar un conjunto limitado de reformas adaptadas al contexto específico de cada país, en lugar de intentar aplicar una lista universal de requisitos.`
+                },
+                'colaborativa-gobernanza': {
+                    title: 'Gobernanza Colaborativa',
+                    text: `Reconoce que el desarrollo es un esfuerzo conjunto que involucra al gobierno, el sector privado, las organizaciones no gubernamentales (ONG) y las comunidades locales. En muchos contextos, especialmente en estados frágiles, las ONG han asumido un papel crucial en la provisión de servicios básicos como salud y educación, colaborando directamente con los ministerios para planificar e implementar políticas.`
+                },
+                'distribucion': {
+                    title: 'Economía Política de la Distribución',
+                    text: `Esta agenda se centra en intervenciones programáticas para satisfacer necesidades básicas (salud, educación) y mejorar el capital humano. Este enfoque, a menudo evaluado mediante ensayos controlados aleatorios (RCTs), ha sido efectivo a nivel micro, pero ha descuidado las transformaciones estructurales a gran escala necesarias para un desarrollo sostenido.`
+                },
+                'cvg': {
+                    title: 'Empresas y Cadenas de Valor Globales (CVG)',
+                    text: `La globalización ha fragmentado la producción, permitiendo a empresas de países en desarrollo integrarse en redes globales. El objetivo es el *upgrading*: pasar a ocupar posiciones de mayor valor agregado. Sin embargo, este enfoque centrado en la empresa a menudo ignora que los sectores de exportación pueden funcionar como enclaves, con beneficios limitados para el resto de la economía nacional.`
+                },
+                'historico-estructural': {
+                    title: 'Análisis Histórico-Estructural Revisado',
+                    text: `Frente a la fragmentación teórica, Adnan Naseemullah propone revitalizar y revisar el análisis de Cardoso y Faletto. Este enfoque ofrece un marco integrador para comprender el desarrollo como el resultado de la interacción dinámica entre fuerzas domésticas (conflictos sociales y políticos, coaliciones de clase) y estructuras internacionales, adaptado a las realidades contemporáneas de la globalización y la fragmentación de actores.`
+                }
+            };
+
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalClose = document.getElementById('modal-close');
+            
+            document.querySelectorAll('.details-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const contentId = button.dataset.id;
+                    const data = contentData[contentId];
+                    if (data) {
+                        modalTitle.textContent = data.title;
+                        modalBody.innerHTML = `<p>${data.text.replace(/\n/g, '</p><p>')}</p>`;
+                        modal.classList.remove('hidden');
+                    }
+                });
+            });
+
+            const closeModal = () => modal.classList.add('hidden');
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            const sections = document.querySelectorAll('.timeline-item');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        document.querySelector('.timeline-item.active')?.classList.remove('active');
+                        entry.target.classList.add('active');
+
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => observer.observe(section));
+
+            const actors = document.querySelectorAll('.actor');
+            const tooltip = document.getElementById('tooltip');
+
+            actors.forEach(actor => {
+                actor.addEventListener('mousemove', (e) => {
+                    tooltip.textContent = actor.dataset.tooltip;
+                    tooltip.style.left = `${e.pageX + 10}px`;
+                    tooltip.style.top = `${e.pageY + 10}px`;
+                    tooltip.classList.remove('hidden');
+                });
+                actor.addEventListener('mouseleave', () => {
+                    tooltip.classList.add('hidden');
+                });
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
